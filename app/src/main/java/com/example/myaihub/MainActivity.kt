@@ -78,19 +78,19 @@ fun MainScreen() {
             Spacer(modifier = Modifier.height(48.dp))
 
             HubButton(label = "ChatGPT") {
-                openUrl(context, "https://chatgpt.com")
+                openApp(context, "com.openai.chatgpt", "https://chatgpt.com")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             HubButton(label = "Gemini") {
-                openUrl(context, "https://gemini.google.com")
+                openApp(context, "com.google.android.apps.bard", "https://gemini.google.com")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             HubButton(label = "Claude") {
-                openUrl(context, "https://claude.ai")
+                openApp(context, "com.anthropic.claude", "https://claude.ai")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -125,4 +125,14 @@ fun HubButton(label: String, onClick: () -> Unit) {
 private fun openUrl(context: android.content.Context, url: String) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     context.startActivity(intent)
+}fun openApp(context: Context, packageName: String) {
+    val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+    if (launchIntent != null) {
+        context.startActivity(launchIntent)
+    } else {
+        // Uygulama yüklü değilse tarayıcıda aç
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://claude.ai"))
+        context.startActivity(intent)
+    }
 }
+
